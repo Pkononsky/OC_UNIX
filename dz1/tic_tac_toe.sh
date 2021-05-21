@@ -20,7 +20,21 @@ function check_win() {
         then
                 echo "Ты победил"
                 echo "exit" > tic_tac_pipe
-                rm tic_tac_pipe
+				rm tic_tac_pipe
+                exit 0
+        fi
+}
+
+function check_spare() {
+        if [[ (${field1[0]} != "_" && ${field1[2]} != "_" && ${field1[4]} != "_" && ${field2[0]} != "_" 
+		&& ${field2[2]} != "_" && ${field2[4]} != "_" && ${field3[0]} != " " && ${field3[2]} != " "
+		&& ${field3[4]} != " ") ]]
+        then
+                echo "Ничья"
+				if [[ $maincell = "X" ]]
+                then
+                        rm tic_tac_pipe
+                fi				
                 exit 0
         fi
 }
@@ -41,6 +55,7 @@ do
         printf %s "${field1[@]}" $'\n'
         printf %s "${field2[@]}" $'\n'
         printf %s "${field3[@]}" $'\n'
+		check_spare
 
         if "$movend"
         then
